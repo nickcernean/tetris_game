@@ -40,7 +40,7 @@ void freeTetField(TetField *tetf)
     {
         if (tetf->blocks)
         {
-            free(tetf->blocks)
+            free(tetf->blocks);
         };
         free(tetf);
     };
@@ -50,7 +50,7 @@ TetGame *createTetGame(int field_width, int field_height, int figures_size, int 
 {
     TetGame *tetg = (TetGame *)malloc(sizeof(TetGame));
     tetg->field = createTetField(field_width, field_height);
-    tetg->figurest = createFiguresT(count, figures_size, figures_template);
+    tetg->figurest = createTetFiguresT(count, figures_size, figures_template);
 
     tetg->ticks = TET_TICKS_START;
     tetg->ticks_left = TET_TICKS_START;
@@ -101,7 +101,7 @@ int collisionTet(TetGame *tetg)
             {
                 int fx = t->x + j;
                 int fy = t->y + i;
-                if (tf->block[fy * tf->width + fx].b != 0)
+                if (tf->blocks[fy * tf->width + fx].b != 0)
                 {
                     return 1;
                 }
@@ -152,7 +152,7 @@ void dropLineTet(int i, TetField *tf)
         {
             tfl->blocks[j].b = 0;
         };
-    };
+    }
     else
     {
         for (int k = i; k > 0; k--)
@@ -203,7 +203,7 @@ TetFigure *rotTetFigure(TetGame *tetg)
 void dropNewFigure(TetGame *tetg)
 {
     TetFigure *t = createTetFigure(tetg);
-    t->x = tetg->width / 2 - t->size / 2;
+    t->x = tetg->field->width / 2 - t->size / 2;
     t->x = 0;
     int fnum = rand() % tetg->figurest->count;
     for (int i = 0; i < t->size; i++)

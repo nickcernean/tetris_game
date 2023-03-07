@@ -26,7 +26,6 @@ typedef struct TetField
     int width;
     int height;
     TetBlock *blocks;
-    TetBlock *blocks;
 } TetField;
 
 typedef struct TetPlayer
