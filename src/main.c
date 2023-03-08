@@ -4,42 +4,41 @@
 #include "tetris.h"
 
 TetBlock tet_templates[] = {
-    0,0,1,0,0,
-    0,0,1,0,0,
-    0,0,1,0,0,
-    0,0,1,0,0,
-    0,0,1,0,0,
+    0, 0, 1, 0, 0,
+    0, 0, 1, 0, 0,
+    0, 0, 1, 0, 0,
+    0, 0, 1, 0, 0,
+    0, 0, 1, 0, 0,
 
-    0,0,0,0,0,
-    0,0,1,0,0,
-    0,1,1,1,0,
-    0,0,0,0,0,
-    0,0,0,0,0,
+    0, 0, 0, 0, 0,
+    0, 0, 1, 0, 0,
+    0, 1, 1, 1, 0,
+    0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0,
 
-    0,0,0,0,0,
-    0,0,1,1,0,
-    0,0,1,0,0,
-    0,0,1,0,0,
-    0,0,0,0,0,
+    0, 0, 0, 0, 0,
+    0, 0, 1, 1, 0,
+    0, 0, 1, 0, 0,
+    0, 0, 1, 0, 0,
+    0, 0, 0, 0, 0,
 
-    0,0,0,0,0,
-    0,1,1,0,0,
-    0,0,1,0,0,
-    0,0,1,0,0,
-    0,0,0,0,0,
+    0, 0, 0, 0, 0,
+    0, 1, 1, 0, 0,
+    0, 0, 1, 0, 0,
+    0, 0, 1, 0, 0,
+    0, 0, 0, 0, 0,
 
-    0,0,0,0,0,
-    0,0,1,1,0,
-    0,1,1,0,0,
-    0,0,0,0,0,
-    0,0,0,0,0,
+    0, 0, 0, 0, 0,
+    0, 0, 1, 1, 0,
+    0, 1, 1, 0, 0,
+    0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0,
 
-    0,0,0,0,0,
-    0,1,1,0,0,
-    0,0,1,1,0,
-    0,0,0,0,0,
-    0,0,0,0,0
-};
+    0, 0, 0, 0, 0,
+    0, 1, 1, 0, 0,
+    0, 0, 1, 1, 0,
+    0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0};
 
 void printTetGame(TetGame *tetg)
 {
@@ -68,7 +67,9 @@ void printTetGame(TetGame *tetg)
 
 int main(int argc, char *argv[])
 {
-    TetGame *tetg = createTetGame(32, 53, 5, 6, tet_templates);
+    struct timespec sp_start, sp_end, ts1, ts2 = {0, 0};
+
+    TetGame *tetg = createTetGame(15, 101, 5, 6, tet_templates);
     TetPlayer player;
     player.action = TET_PLAYER_NOP;
     tetg->player = &player;
@@ -76,8 +77,15 @@ int main(int argc, char *argv[])
     dropNewFigure(tetg);
     while (tetg->playing != TET_GAMEOVER)
     {
+        clock_gettime(CLOCK_MONOTONIC, &sp_start);
         calculateTet(tetg);
         printTetGame(tetg);
+        clock_gettime(CLOCK_MONOTONIC, &sp_end);
+        if (sp_end.tv_sec - sp_start.tv_sec <= 0 &&
+            (ts2.tv_nsec = 33000000 - (sp_end.tv_nsec - sp_start.tv_nsec)) > 0)
+        {
+            nanosleep(&ts2, &ts1);
+        }
     };
     freeTetGame(tetg);
     return 0;
