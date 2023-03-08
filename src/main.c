@@ -1,164 +1,46 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <time.h>
 #include "tetris.h"
 
 TetBlock tet_templates[] = {
-    0,
-    0,
-    1,
-    0,
-    0,
-    0,
-    0,
-    1,
-    0,
-    0,
-    0,
-    0,
-    1,
-    0,
-    0,
-    0,
-    0,
-    1,
-    0,
-    0,
-    0,
-    0,
-    1,
-    0,
-    0,
+    0,0,1,0,0,
+    0,0,1,0,0,
+    0,0,1,0,0,
+    0,0,1,0,0,
+    0,0,1,0,0,
 
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    1,
-    0,
-    0,
-    0,
-    1,
-    1,
-    1,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
+    0,0,0,0,0,
+    0,0,1,0,0,
+    0,1,1,1,0,
+    0,0,0,0,0,
+    0,0,0,0,0,
 
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    1,
-    1,
-    0,
-    0,
-    0,
-    1,
-    0,
-    0,
-    0,
-    0,
-    1,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
+    0,0,0,0,0,
+    0,0,1,1,0,
+    0,0,1,0,0,
+    0,0,1,0,0,
+    0,0,0,0,0,
 
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    1,
-    1,
-    0,
-    0,
-    0,
-    0,
-    1,
-    0,
-    0,
-    0,
-    0,
-    1,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
+    0,0,0,0,0,
+    0,1,1,0,0,
+    0,0,1,0,0,
+    0,0,1,0,0,
+    0,0,0,0,0,
 
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    1,
-    1,
-    0,
-    0,
-    1,
-    1,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
+    0,0,0,0,0,
+    0,0,1,1,0,
+    0,1,1,0,0,
+    0,0,0,0,0,
+    0,0,0,0,0,
 
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    1,
-    1,
-    0,
-    0,
-    0,
-    0,
-    1,
-    1,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
-    0,
+    0,0,0,0,0,
+    0,1,1,0,0,
+    0,0,1,1,0,
+    0,0,0,0,0,
+    0,0,0,0,0
 };
+
 void printTetGame(TetGame *tetg)
 {
     TetField *tf = tetg->field;
@@ -169,7 +51,7 @@ void printTetGame(TetGame *tetg)
         {
             int sym = 0;
             if (tf->blocks[i * tf->width + j].b != 0)
-                printf("%d", 1);
+                sym = 1;
             else
             {
                 int x = j - t->x;
@@ -178,7 +60,7 @@ void printTetGame(TetGame *tetg)
                     if (t->blocks[y * t->size + x].b != 0)
                         sym = 1;
             };
-            printf("%d", 1);
+            printf("%d", sym);
         };
     };
     fflush(stdout);
@@ -186,7 +68,7 @@ void printTetGame(TetGame *tetg)
 
 int main(int argc, char *argv[])
 {
-    TetGame *tetg = createTetGame(34, 30, 5, 6, tet_templates);
+    TetGame *tetg = createTetGame(32, 53, 5, 6, tet_templates);
     TetPlayer player;
     player.action = TET_PLAYER_NOP;
     tetg->player = &player;
