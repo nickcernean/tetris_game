@@ -167,6 +167,7 @@ void printTetGame(TetGame *tetg)
     {
         for (int j = 0; j < tf->width; j++)
         {
+            int sym = 0;
             if (tf->blocks[i * tf->width + j].b != 0)
                 printf("%d", 1);
             else
@@ -187,7 +188,7 @@ int main(int argc, char *argv[])
 {
     TetGame *tetg = createTetGame(34, 30, 5, 6, tet_templates);
     TetPlayer player;
-    player.action->TET_PLAYER_NOP;
+    player.action = TET_PLAYER_NOP;
     tetg->player = &player;
 
     dropNewFigure(tetg);

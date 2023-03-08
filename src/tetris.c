@@ -27,12 +27,10 @@ TetField *createTetField(int width, int height)
     tetf->width = width;
     tetf->height = height;
     tetf->blocks = (TetBlock *)malloc(sizeof(TetBlock) * width * height);
-
     for (int i = 0; i < width * height; i++)
-    {
+
         tetf->blocks[i].b = 0;
-        return tetf;
-    };
+    return tetf;
 };
 void freeTetField(TetField *tetf)
 {
@@ -135,16 +133,12 @@ void plantFigure(TetGame *tetg)
 int lineFilledTet(int i, TetField *tfl)
 {
     for (int j = 0; j < tfl->width; j++)
-    {
         if (tfl->blocks[i * tfl->width + j].b == 0)
-        {
             return 0;
-        };
-        return 1;
-    };
-};
+    return 1;
+}
 
-void dropLineTet(int i, TetField *tf)
+void dropLineTet(int i, TetField *tfl)
 {
     if (i == 0)
     {
@@ -241,7 +235,7 @@ void calculateTet(TetGame *tetg)
         if (collisionTet(tetg))
         {
             moveFigureUp(tetg);
-            plantfigure(tetg);
+            plantFigure(tetg);
             tetg->score += eraseLinesTet(tetg);
             dropNewFigure(tetg);
             if (collisionTet(tetg))
@@ -256,25 +250,26 @@ void calculateTet(TetGame *tetg)
     case TET_PLAYER_RIGHT:
         moveFigureRight(tetg);
         if (collisionTet(tetg))
-        {
+
             moveFigureLeft(tetg);
-        };
+
         break;
     case TET_PLAYER_LEFT:
         moveFigureLeft(tetg);
         if (collisionTet(tetg))
-        {
+
             moveFigureRight(tetg);
-        };
+
         break;
     case TET_PLAYER_DOWN:
         moveFigureDown(tetg);
         if (collisionTet(tetg))
-        {
+
             moveFigureUp(tetg);
-        };
+
         break;
     case TET_PLAYER_UP:
+    {
         TetFigure *t = rotTetFigure(tetg);
         TetFigure *told = tetg->figure;
         tetg->figure = t;
@@ -288,7 +283,8 @@ void calculateTet(TetGame *tetg)
         {
             freeTetFigure(told);
         };
-        break;
+    };
+    break;
     case TET_PLAYER_NOP:
     default:
         break;

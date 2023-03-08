@@ -12,6 +12,7 @@ typedef struct TetFigure
     int x;
     int y;
     int size;
+    TetBlock *blocks;
 } TetFigure;
 
 typedef struct TetFiguresT
